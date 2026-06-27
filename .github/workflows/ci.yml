@@ -25,35 +25,35 @@ jobs:
           node-version: 22
 
       - name: Dar permissão ao Maven Wrapper
-        working-directory: ./api
+        working-directory: ./sqa-social-media-main/api
         run: chmod +x mvnw
 
       - name: Rodar testes do backend
-        working-directory: ./api
+        working-directory: ./sqa-social-media-main/api
         run: ./mvnw test
 
       - name: Instalar dependências do frontend
-        working-directory: ./client
+        working-directory: ./sqa-social-media-main/client
         run: npm ci
 
       - name: Rodar testes do frontend
-        working-directory: ./client
+        working-directory: ./sqa-social-media-main/client
         run: npm test
 
       - name: Instalar dependências do Playwright
-        working-directory: ./tests
+        working-directory: ./sqa-social-media-main/tests
         run: npm ci
 
       - name: Instalar navegador do Playwright
-        working-directory: ./tests
+        working-directory: ./sqa-social-media-main/tests
         run: npx playwright install --with-deps chromium
 
       - name: Subir API em modo E2E
-        working-directory: ./api
+        working-directory: ./sqa-social-media-main/api
         run: nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=e2e > api.log 2>&1 &
 
       - name: Subir frontend
-        working-directory: ./client
+        working-directory: ./sqa-social-media-main/client
         run: nohup npm run dev > client.log 2>&1 &
 
       - name: Aguardar API e frontend
@@ -67,5 +67,5 @@ jobs:
           exit 1
 
       - name: Rodar testes Playwright
-        working-directory: ./tests
+        working-directory: ./sqa-social-media-main/tests
         run: npx playwright test --project=chromium
