@@ -61,6 +61,16 @@ public class PostService {
         post.put("title", postNode.get("title").asText());
         post.put("body", postNode.get("body").asText());
         post.put("liked", likedPostIds.contains(postId));
+
+        if (postNode.has("reactions") && !postNode.get("reactions").isNull()) {
+          JsonNode reactionsNode = postNode.get("reactions");
+
+          Map<String, Object> reactions = new HashMap<>();
+          reactions.put("likes", reactionsNode.has("likes") ? reactionsNode.get("likes").asInt() : 0);
+          reactions.put("dislikes", reactionsNode.has("dislikes") ? reactionsNode.get("dislikes").asInt() : 0);
+
+          post.put("reactions", reactions);
+        }
         
         posts.add(post);
       }
@@ -108,6 +118,16 @@ public class PostService {
         post.put("title", postNode.get("title").asText());
         post.put("body", postNode.get("body").asText());
         post.put("liked", true);
+
+        if (postNode.has("reactions") && !postNode.get("reactions").isNull()) {
+          JsonNode reactionsNode = postNode.get("reactions");
+
+          Map<String, Object> reactions = new HashMap<>();
+          reactions.put("likes", reactionsNode.has("likes") ? reactionsNode.get("likes").asInt() : 0);
+          reactions.put("dislikes", reactionsNode.has("dislikes") ? reactionsNode.get("dislikes").asInt() : 0);
+
+          post.put("reactions", reactions);
+        }
         
         posts.add(post);
       }
